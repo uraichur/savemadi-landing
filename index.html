@@ -18,13 +18,12 @@
       --cardB:rgba(255,255,255,0.60);
     }
 
-    /* Background stars canvas */
     #starfield{ position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none }
 
     body{
       font-family: Cambria, Georgia, "Times New Roman", Times, serif;
       margin:0;
-      min-height:100svh; /* better on mobile than 100vh/dvh */
+      min-height:100svh;
       background:
         radial-gradient(1200px 800px at 20% 25%, #12306e, transparent 60%),
         radial-gradient(900px 700px at 80% 10%, #0e2a63, transparent 55%),
@@ -40,7 +39,7 @@
     main{
       position:relative; z-index:1;
       width:clamp(300px, 96vw, 640px);
-      padding:clamp(18px, 4vw, 28px) clamp(16px, 3.5vw, 24px);
+      padding:clamp(18px, 4vw, 24px) clamp(16px, 3.5vw, 22px);
       border-radius:18px;
       background: linear-gradient(165deg, var(--cardA), var(--cardB));
       border:1px solid rgba(255,255,255,0.30);
@@ -49,13 +48,11 @@
       -webkit-backdrop-filter: blur(12px) saturate(125%);
     }
 
-    /* Short screens: avoid clipping */
     @media (max-height: 640px){
       body{ place-items:start center; }
-      main{ margin-top:12px; margin-bottom:12px; }
+      main{ margin-top:10px; margin-bottom:10px; }
     }
 
-    /* Heading + tagline */
     h1{
       margin:0;
       font-weight:700;
@@ -66,49 +63,49 @@
       text-shadow:0 1px 0 rgba(255,255,255,0.6);
     }
     .tagline{
-      margin:6px 0 16px;
+      margin:6px 0 12px;
       text-align:center;
       font-style:italic;
       color:#2a2a2a;
       font-size:clamp(14px, 3.6vw, 16px);
     }
 
-    /* T&C line: let it wrap on phones (fixes sideways scroll) */
+    /* Compact T&C line */
     .tc-inline{
       display:block;
-      margin:6px 0 6px;
+      margin:4px 0 2px;               /* tighter gap */
       font-size:clamp(13px, 3.4vw, 14px);
-      white-space:normal;                 /* was nowrap */
-      overflow-wrap:anywhere;             /* break long URL */
+      white-space:normal;
+      overflow-wrap:anywhere;
       word-break:break-word;
       color:#242424;
       text-align:left;
     }
     .tc-inline a{ color:var(--brand); text-decoration:underline; }
 
-    /* Checkbox: allow wrapping on small screens */
+    /* Checkbox row: compact & neat */
     label.agree{
-      display:flex;                       /* was inline-flex */
-      gap:10px;
-      align-items:flex-start;
+      display:flex;
+      gap:8px;                        /* smaller gap */
+      align-items:center;             /* center with checkbox */
       justify-content:flex-start;
       font-size:clamp(13px, 3.4vw, 14px);
       color:#242424;
-      margin:6px 0 10px;
-      white-space:normal;                 /* was nowrap */
-      line-height:1.35;
+      margin:0 0 6px;                 /* minimal bottom gap */
+      white-space:normal;
+      line-height:1.25;
     }
-    input[type="checkbox"]{ transform:translateY(2px); }
+    input[type="checkbox"]{ transform:translateY(1px); }
 
-    /* Hint + form controls */
     .hint{
       font-weight:600;
-      margin:8px 0 10px;
+      margin:4px 0 8px;               /* reduced spacing */
       color:#242424;
       font-size:clamp(14px, 3.8vw, 16px);
     }
+
     input,button{
-      font-size:clamp(16px, 4.2vw, 18px); /* keeps iOS from zooming */
+      font-size:clamp(16px, 4.2vw, 18px);
       padding:clamp(11px, 3.2vw, 14px);
       border-radius:12px;
       border:1px solid var(--line);
@@ -120,7 +117,7 @@
     input::placeholder{ color:#6b6b6b; }
     input:focus, button:focus{ outline:2px solid #7aa7ff; outline-offset:2px; }
     button{
-      margin-top:10px;
+      margin-top:8px;
       border:none;
       background:var(--brand);
       color:#fff;
@@ -139,27 +136,24 @@
 </head>
 <body>
 
-<!-- Twinkling stars canvas -->
 <canvas id="starfield" aria-hidden="true"></canvas>
 
 <main>
   <h1>SAVeMadi</h1>
   <p class="tagline"><em>We help  Save your precious moments</em></p>
 
-  <!-- Terms line -->
+  <!-- Compact T&C line with short link -->
   <p class="tc-inline">
-    Read our Terms &amp; Conditions here:
-    <a href="https://www.savemadi.com/terms" target="_blank" rel="noopener">https://www.savemadi.com/terms</a>
+    Read our Terms &amp; Conditions <a href="https://www.savemadi.com/terms" target="_blank" rel="noopener">here</a>.
   </p>
 
-  <!-- Agreement checkbox -->
+  <!-- Compact checkbox text -->
   <label class="agree">
     <input type="checkbox" id="agree" />
-    <span>I have read and agree to the terms and conditions</span>
+    <span>I agree to T&amp;C</span>
   </label>
 
-  <!-- Instruction -->
-  <p class="hint">Enter your 10-digit WhatsApp number here</p>
+  <p class="hint">Enter your 10-digit WhatsApp number</p>
 
   <form id="otpForm" onsubmit="return false">
     <input
@@ -167,14 +161,14 @@
       type="tel"
       inputmode="numeric"
       autocomplete="tel"
-      placeholder="Enter your 10-digit WhatsApp number here"
+      placeholder="Enter your 10-digit WhatsApp number"
       maxlength="10"
       disabled
     />
     <button id="sendBtn" onclick="sendOTP()" disabled>Send OTP</button>
   </form>
 
-  <div id="otpBlock" style="display:none;margin-top:12px">
+  <div id="otpBlock" style="display:none;margin-top:10px">
     <input id="otp" inputmode="numeric" placeholder="Enter OTP" />
     <button onclick="verifyOTP()">Verify</button>
   </div>
@@ -185,7 +179,6 @@
 </main>
 
 <script>
-/* ===== Starfield (lighter on phones) ===== */
 (function(){
   const canvas = document.getElementById('starfield');
   const ctx = canvas.getContext('2d', { alpha: true });
@@ -198,8 +191,6 @@
     h = canvas.height = Math.floor(window.innerHeight * dpr);
     canvas.style.width = window.innerWidth + 'px';
     canvas.style.height = window.innerHeight + 'px';
-
-    // Slightly fewer stars on small screens for smoother rendering
     const base = (window.innerWidth * window.innerHeight) / 9000;
     const count = Math.min(240, Math.max(120, Math.floor(base)));
     stars = new Array(count).fill(0).map(() => ({
@@ -234,14 +225,13 @@
   requestAnimationFrame(draw);
 })();
 
-/* ===== OTP flow with 10-digit gating & auto +91 ===== */
-const API = "https://<YOUR-BACKEND-DOMAIN>/"; // e.g., your Render FastAPI base
+/* Gated OTP flow (10-digit only) */
+const API = "https://<YOUR-BACKEND-DOMAIN>/";
 const agree = document.getElementById('agree');
 const phoneEl = document.getElementById('phone');
 const sendBtn = document.getElementById('sendBtn');
 
 function updateSendState(){
-  // allow only digits, max 10
   let v = phoneEl.value.replace(/\D/g,'');
   if(v.length > 10) v = v.slice(0,10);
   if(phoneEl.value !== v) phoneEl.value = v;
@@ -259,8 +249,8 @@ document.addEventListener('DOMContentLoaded', updateSendState);
 
 async function sendOTP(){
   const digits = phoneEl.value.replace(/\D/g,'');
-  if(digits.length !== 10) return; // safety guard
-  const phone = "91" + digits;     // auto-prefix India country code for backend
+  if(digits.length !== 10) return;
+  const phone = "91" + digits;
 
   sendBtn.disabled = true;
   try{
@@ -295,7 +285,6 @@ async function verifyOTP(){
     });
     const j = await r.json().catch(()=>({}));
     if(j.code){
-      // Redirect to the .app site carrying the code
       location.href = "https://www.savemadi.app/selfie?code=" + encodeURIComponent(j.code);
     }else{
       document.getElementById('msg').textContent = j.detail || "Invalid OTP, try again.";
