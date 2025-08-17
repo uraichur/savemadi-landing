@@ -7,32 +7,22 @@
   <meta name="theme-color" content="#031a3a" />
   <style>
     :root{
-      --brand:#0b6cff;
-      --text:#1b1b1b;
-      --muted:#3a3a3a;
-      --line:#d9d9d9;
-      --bg1:#0b1f4e;
-      --bg2:#051234;
-      --bg3:#000a1e;
-      --cardA:rgba(255,255,255,0.72);
-      --cardB:rgba(255,255,255,0.60);
+      --brand:#0b6cff; --text:#1b1b1b; --muted:#3a3a3a; --line:#d9d9d9;
+      --bg1:#0b1f4e; --bg2:#051234; --bg3:#000a1e;
+      --cardA:rgba(255,255,255,0.72); --cardB:rgba(255,255,255,0.60);
     }
 
     #starfield{ position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none }
 
     body{
       font-family: Cambria, Georgia, "Times New Roman", Times, serif;
-      margin:0;
-      min-height:100svh;
+      margin:0; min-height:100svh;
       background:
         radial-gradient(1200px 800px at 20% 25%, #12306e, transparent 60%),
         radial-gradient(900px 700px at 80% 10%, #0e2a63, transparent 55%),
         radial-gradient(800px 800px at 60% 90%, #0a2457, transparent 55%),
         linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 60%, var(--bg3) 100%);
-      color:var(--text);
-      display:grid;
-      place-items:center;
-      overflow-x:hidden;
+      color:var(--text); display:grid; place-items:center; overflow-x:hidden;
       padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
     }
 
@@ -41,102 +31,60 @@
       width:clamp(300px, 96vw, 640px);
       padding:clamp(18px, 4vw, 24px) clamp(16px, 3.5vw, 22px);
       border-radius:18px;
-      background: linear-gradient(165deg, var(--cardA), var(--cardB));
+      background:linear-gradient(165deg, var(--cardA), var(--cardB));
       border:1px solid rgba(255,255,255,0.30);
-      box-shadow: 0 18px 60px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.55) inset;
-      backdrop-filter: blur(12px) saturate(125%);
-      -webkit-backdrop-filter: blur(12px) saturate(125%);
+      box-shadow:0 18px 60px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.55) inset;
+      backdrop-filter:blur(12px) saturate(125%); -webkit-backdrop-filter:blur(12px) saturate(125%);
     }
 
-    @media (max-height: 640px){
-      body{ place-items:start center; }
-      main{ margin-top:10px; margin-bottom:10px; }
-    }
+    @media (max-height:640px){ body{ place-items:start center } main{ margin:10px 0 } }
 
     h1{
-      margin:0;
-      font-weight:700;
-      font-size:clamp(22px, 5vw, 28px);
-      text-align:center;
-      letter-spacing:.2px;
-      color:#0b1f4e;
-      text-shadow:0 1px 0 rgba(255,255,255,0.6);
+      margin:0; font-weight:700; font-size:clamp(22px, 5vw, 28px);
+      text-align:center; letter-spacing:.2px; color:#0b1f4e; text-shadow:0 1px 0 rgba(255,255,255,.6);
     }
-    .tagline{
-      margin:6px 0 12px;
-      text-align:center;
-      font-style:italic;
-      color:#2a2a2a;
-      font-size:clamp(14px, 3.6vw, 16px);
-    }
+    .tagline{ margin:6px 0 12px; text-align:center; font-style:italic; color:#2a2a2a; font-size:clamp(14px, 3.6vw, 16px); }
 
-    /* Compact T&C line */
+    /* T&C line */
     .tc-inline{
-      display:block;
-      margin:4px 0 2px;
-      font-size:clamp(13px, 3.4vw, 14px);
-      white-space:normal;
-      overflow-wrap:anywhere;
-      word-break:break-word;
-      color:#242424;
-      text-align:left;
+      display:block; margin:4px 0 2px; font-size:clamp(13px, 3.4vw, 14px);
+      white-space:normal; overflow-wrap:anywhere; word-break:break-word; color:#242424; text-align:left;
     }
     .tc-inline a{ color:var(--brand); text-decoration:underline; }
 
-    /* Checkbox row: make label full-width and text wrap */
+    /* Checkbox row — FULL WIDTH + NORMAL WRAP */
     label.agree{
-      display:flex;
-      width:100%;                 /* NEW: let the row use full card width */
-      gap:8px;
-      align-items:center;
-      justify-content:flex-start;
-      font-size:clamp(13px, 3.4vw, 14px);
-      color:#242424;
-      margin:0 0 6px;
-      line-height:1.25;
+      display:flex; width:100%;
+      gap:8px; align-items:center; justify-content:flex-start;
+      font-size:clamp(13px, 3.4vw, 14px); color:#242424; margin:0 0 6px; line-height:1.25;
     }
     label.agree input{ flex:0 0 auto; }
     label.agree span{
-      flex:1;                     /* NEW: take remaining space */
-      min-width:0;                /* NEW: allow wrapping inside flex */
-      word-break:break-word;
-      overflow-wrap:anywhere;
+      flex:1 1 auto; min-width:0;
+      /* FIX: allow normal word wrapping (no per-letter breaks) */
+      white-space:normal; overflow-wrap:normal; word-break:normal;
     }
     input[type="checkbox"]{ transform:translateY(1px); }
 
-    .hint{
-      font-weight:600;
-      margin:4px 0 8px;
-      color:#242424;
-      font-size:clamp(14px, 3.8vw, 16px);
-    }
+    .hint{ font-weight:600; margin:4px 0 8px; color:#242424; font-size:clamp(14px, 3.8vw, 16px); }
 
     input,button{
       font-size:clamp(16px, 4.2vw, 18px);
       padding:clamp(11px, 3.2vw, 14px);
-      border-radius:12px;
-      border:1px solid var(--line);
-      width:100%;
-      box-sizing:border-box;
-      font-family: Cambria, Georgia, "Times New Roman", Times, serif;
-      background:#ffffff;
+      border-radius:12px; border:1px solid var(--line);
+      width:100%; box-sizing:border-box; background:#ffffff; font-family: Cambria, Georgia, "Times New Roman", Times, serif;
     }
-    input::placeholder{ color:#6b6b6b; }
-    input:focus, button:focus{ outline:2px solid #7aa7ff; outline-offset:2px; }
+    input::placeholder{ color:#6b6b6b }
+    input:focus, button:focus{ outline:2px solid #7aa7ff; outline-offset:2px }
     button{
-      margin-top:8px;
-      border:none;
-      background:var(--brand);
-      color:#fff;
-      cursor:pointer;
-      touch-action:manipulation;
+      margin-top:8px; border:none; background:var(--brand); color:#fff; cursor:pointer; touch-action:manipulation;
       box-shadow:0 6px 18px rgba(11,108,255,0.35);
     }
-    button:disabled, input:disabled{ opacity:.6; cursor:not-allowed; background:#f3f3f3; }
+    button:disabled, input:disabled{ opacity:.6; cursor:not-allowed; background:#f3f3f3 }
 
-    small{ color:#3a3a3a; display:block; margin-top:8px; font-size:clamp(12px, 3.2vw, 13px); }
-    .copyright{ color:#6b6b6b; opacity:0.7; text-align:center; margin-top:4px; font-size:clamp(11px, 3vw, 12px); }
-    #msg{ min-height:20px; color:#1f1f1f; font-size:clamp(13px, 3.4vw, 14px); }
+    small{ color:#3a3a3a; display:block; margin-top:8px; font-size:clamp(12px, 3.2vw, 13px) }
+    .copyright{ color:#6b6b6b; opacity:0.7; text-align:center; margin-top:4px; font-size:clamp(11px, 3vw, 12px) }
+    #msg{ min-height:20px; color:#1f1f1f; font-size:clamp(13px, 3.4vw, 14px) }
 
     @media (prefers-reduced-motion: reduce){ #starfield{ display:none } }
   </style>
@@ -161,15 +109,8 @@
   <p class="hint">Enter your 10-digit WhatsApp number</p>
 
   <form id="otpForm" onsubmit="return false">
-    <input
-      id="phone"
-      type="tel"
-      inputmode="numeric"
-      autocomplete="tel"
-      placeholder="Enter your 10-digit WhatsApp number"
-      maxlength="10"
-      disabled
-    />
+    <input id="phone" type="tel" inputmode="numeric" autocomplete="tel"
+           placeholder="Enter your 10-digit WhatsApp number" maxlength="10" disabled />
     <button id="sendBtn" onclick="sendOTP()" disabled>Send OTP</button>
   </form>
 
@@ -199,38 +140,28 @@
     const base = (window.innerWidth * window.innerHeight) / 9000;
     const count = Math.min(240, Math.max(120, Math.floor(base)));
     stars = new Array(count).fill(0).map(() => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
+      x: Math.random() * w, y: Math.random() * h,
       r: (Math.random()*1.1 + 0.4) * dpr,
-      base: Math.random()*0.55 + 0.25,
-      v: Math.random()*0.35 + 0.15,
-      spd: Math.random()*1.2 + 0.4,
-      ph: Math.random()*Math.PI*2
+      base: Math.random()*0.55 + 0.25, v: Math.random()*0.35 + 0.15,
+      spd: Math.random()*1.2 + 0.4, ph: Math.random()*Math.PI*2
     }));
   }
 
   function draw(t){
-    t = t/1000;
-    ctx.clearRect(0,0,w,h);
+    t = t/1000; ctx.clearRect(0,0,w,h);
     for(const s of stars){
       const a = Math.min(1, Math.max(0, s.base + Math.sin(t*s.spd + s.ph)*s.v));
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(255,255,255,${a})`;
-      ctx.shadowColor = `rgba(255,255,255,${a})`;
-      ctx.shadowBlur = 5 * (window.devicePixelRatio || 1);
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-      ctx.fill();
+      ctx.beginPath(); ctx.fillStyle = `rgba(255,255,255,${a})`; ctx.shadowColor = `rgba(255,255,255,${a})`;
+      ctx.shadowBlur = 5 * (window.devicePixelRatio || 1); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
     }
-    ctx.shadowBlur = 0;
-    requestAnimationFrame(draw);
+    ctx.shadowBlur = 0; requestAnimationFrame(draw);
   }
 
-  window.addEventListener('resize', size, { passive:true });
-  size();
-  requestAnimationFrame(draw);
+  addEventListener('resize', size, { passive:true });
+  size(); requestAnimationFrame(draw);
 })();
 
-/* Gated OTP flow (10-digit only) */
+/* OTP gating */
 const API = "https://<YOUR-BACKEND-DOMAIN>/";
 const agree = document.getElementById('agree');
 const phoneEl = document.getElementById('phone');
@@ -260,8 +191,7 @@ async function sendOTP(){
   sendBtn.disabled = true;
   try{
     const r = await fetch(API + "send-otp", {
-      method:"POST",
-      headers:{'Content-Type':'application/json'},
+      method:"POST", headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ phone })
     });
     const j = await r.json().catch(()=>({}));
@@ -280,12 +210,11 @@ async function verifyOTP(){
   const phone = "91" + digits;
 
   const otp = document.getElementById('otp').value.trim();
-  if(!otp){ return }
+  if(!otp) return;
 
   try{
     const r = await fetch(API + "verify-otp", {
-      method:"POST",
-      headers:{'Content-Type':'application/json'},
+      method:"POST", headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ phone, otp })
     });
     const j = await r.json().catch(()=>({}));
