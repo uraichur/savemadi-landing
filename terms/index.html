@@ -1,1 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SAVeMadi — Terms & Conditions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#031a3a" />
+  <style>
+    :root{
+      --brand:#0b6cff;
+      --text:#1b1b1b;
+      --muted:#3a3a3a;
+      --line:#d9d9d9;
+      --bg1:#0b1f4e;
+      --bg2:#051234;
+      --bg3:#000a1e;
+      --cardA:rgba(255,255,255,0.72);
+      --cardB:rgba(255,255,255,0.60);
+      --callout:#f6fbff;
+      --callout-border:#cfe4ff;
+    }
+
+    /* Star canvas behind everything */
+    #starfield{
+      position:fixed; inset:0; width:100%; height:100%; z-index:0; display:block; pointer-events:none;
+    }
+
+    body{
+      font-family: Cambria, Georgia, "Times New Roman", Times, serif;
+      margin:0;
+      min-height:100dvh;
+      background:
+        radial-gradient(1200px 800px at 20% 25%, #12306e, transparent 60%),
+        radial-gradient(900px 700px at 80% 10%, #0e2a63, transparent 55%),
+        radial-gradient(800px 800px at 60% 90%, #0a2457, transparent 55%),
+        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 60%, var(--bg3) 100%);
+      color:var(--text);
+      display:grid; place-items:start center;
+      overflow-x:hidden;
+      padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+    }
+
+    main{
+      position:relative; z-index:1;
+      width:clamp(300px, 96vw, 900px);
+      padding:clamp(18px, 4vw, 32px) clamp(16px, 3.5vw, 32px);
+      border-radius:18px;
+      background: linear-gradient(165deg, var(--cardA), var(--cardB));
+      border:1px solid rgba(255,255,255,0.30);
+      box-shadow: 0 18px 60px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.55) inset;
+      backdrop-filter: blur(12px) saturate(125%);
+      -webkit-backdrop-filter: blur(12px) saturate(125%);
+      margin-top:12px; margin-bottom:12px;
+    }
+
+    h1{ margin:0 0 6px; font-size:clamp(22px, 4.8vw, 30px); text-align:center; color:#0b1f4e; text-shadow:0 1px 0 rgba(255,255,255,0.6); }
+    .subtitle{ text-align:center; color:#2a2a2a; margin:0 0 14px; font-style:italic; }
+
+    .meta{ text-align:center; color:#3a3a3a; font-size:clamp(12px, 3vw, 13px); margin-bottom:18px; }
+
+    h2{ margin:22px 0 10px; font-size:clamp(18px, 4.2vw, 22px); color:#0b1f4e; }
+    h3{ margin:16px 0 8px; font-size:clamp(16px, 3.8vw, 19px); color:#10244f; }
+    p{ margin:8px 0; line-height:1.6; color:#1f1f1f; }
+    ul{ margin:6px 0 6px 20px; }
+    li{ margin:6px 0; }
+
+    .callout{
+      background: var(--callout);
+      border:1px solid var(--callout-border);
+      border-radius:12px;
+      padding:12px 14px;
+      margin:10px 0;
+    }
+    .callout strong{ color:#0b1f4e; }
+
+    .muted{ color:#494949; }
+    .hr{ height:1px; background:linear-gradient(90deg, transparent, #dfe7ff, transparent); margin:18px 0; border:none; }
+
+    .actions{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:18px;
+    }
+    .btn{
+      display:inline-block; text-decoration:none; text-align:center; cursor:pointer;
+      padding:12px 16px; border-radius:12px; border:1px solid var(--line);
+      background:#ffffff; color:#0b1f4e; font-weight:bold;
+      box-shadow:0 6px 18px rgba(11,108,255,0.18);
+    }
+    .btn:hover{ filter:brightness(0.98); }
+    .footnote{ text-align:center; color:#626262; font-size:clamp(11px, 3vw, 12px); margin-top:10px; }
+
+    @media (max-height: 640px){
+      body{ place-items:start center; }
+      main{ margin-top:12px; margin-bottom:12px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <main>
+    <h1>SAVeMadi — Terms &amp; Conditions</h1>
+    <p class="subtitle"><em>We help  Save your precious moments</em></p>
+    <p class="meta">Last updated: 17 August 2025 (IST)</p>
+
+    <div class="callout">
+      <p><strong>Important notices (read carefully):</strong></p>
+      <ol>
+        <li><strong>Face-recognition may occasionally be wrong.</strong> The system can surface photos that do not actually feature the person who uploaded the selfie. In such cases, <strong>you must not download</strong> or share any photo that is not yours or does not include you.</li>
+        <li><strong>Privacy first.</strong> All photos you upload to our system (including selfies and event photos uploaded by organizers to our service) are configured to be <strong>deleted within 48 hours</strong> of upload. Non-identifying logs required for security, fraud prevention, or legal compliance may be retained longer.</li>
+        <li><strong>Consent.</strong> By providing your WhatsApp number and using the service, you grant us permission to process your selfie and event photos (if any) solely to perform face recognition and deliver matching photos to you. You also agree to receive OTPs and essential transactional messages on WhatsApp related to the service.</li>
+      </ol>
+    </div>
+
+    <div class="hr"></div>
+
+    <h2>1) Who we are</h2>
+    <p>“SAVeMadi” (the “Service”) is operated by <strong>CodeTriton</strong> (“we”, “us”, or “our”). These Terms &amp; Conditions (“Terms”) govern your access to and use of the Service. By accessing or using the Service, you agree to be bound by these Terms.</p>
+
+    <h2>2) How the Service works (summary)</h2>
+    <p>Event organizers upload event photos to our backend. Guests scan a QR code at the venue, open our landing page, verify their WhatsApp number via OTP, and then proceed to the client page to capture a live selfie. Our system computes embeddings and performs a face-recognition match to surface photos that likely include the guest, which the guest can view and download.</p>
+
+    <h2>3) Eligibility</h2>
+    <ul>
+      <li>You must be at least 18 years old, or have parental/guardian consent if you are a minor.</li>
+      <li>You affirm that you have the right to use the device and number provided and that the selfie you submit is of you.</li>
+    </ul>
+
+    <h2>4) Your account, WhatsApp OTP &amp; communications</h2>
+    <ul>
+      <li>You agree to provide an accurate WhatsApp number and complete OTP verification.</li>
+      <li>You consent to receiving OTP and essential transactional messages (e.g., links to your selfie page or security notifications).</li>
+      <li>You are responsible for maintaining the confidentiality of any session links or codes we issue to you.</li>
+    </ul>
+
+    <h2>5) Privacy &amp; data protection</h2>
+    <h3>5.1 Data we process</h3>
+    <ul>
+      <li>WhatsApp number (for OTP and to deliver the service).</li>
+      <li>Selfie you capture on the client page.</li>
+      <li>Event photos uploaded by organizers (to run the matching process).</li>
+      <li>Technical logs (e.g., device/browser metadata, timestamps) necessary for security and troubleshooting.</li>
+    </ul>
+    <h3>5.2 Purpose of processing</h3>
+    <p>We process your data exclusively to verify access, run face recognition, display potentially matching photos, and maintain security and service integrity.</p>
+    <h3>5.3 Retention &amp; deletion</h3>
+    <p><strong>All photos you upload into the system are configured to be deleted within 48 hours</strong> of upload. Organizers’ event photos ingested into our system for matching are also configured for time-bound deletion. We may retain minimal, non-identifying logs and security records for a longer period as required for fraud prevention, debugging, or legal obligations.</p>
+    <h3>5.4 Sharing</h3>
+    <p>We do not sell your personal data. We may use trusted processors (e.g., hosting providers) strictly to operate the Service under confidentiality and data protection obligations, and we may disclose information if required by law or to protect rights, safety, or the integrity of the Service.</p>
+
+    <h2>6) Event organizer responsibilities</h2>
+    <ul>
+      <li>Organizers represent they have rights to upload photos and have complied with applicable consents and notices for event attendees.</li>
+      <li>Organizers must not upload unlawful, infringing, or harmful content.</li>
+    </ul>
+
+    <h2>7) Acceptable use</h2>
+    <ul>
+      <li>Do not upload another person’s selfie or impersonate others.</li>
+      <li>Do not download, share, or misuse photos that do not include you.</li>
+      <li>No reverse engineering, automated scraping, or interference with the Service.</li>
+      <li>No attempts to bypass security, rate limits, or access others’ photos.</li>
+    </ul>
+
+    <h2>8) Ownership &amp; licenses</h2>
+    <ul>
+      <li>You retain your rights in your selfie and photos (if any). You grant us a limited, revocable, non-exclusive license to process that content solely to provide the Service.</li>
+      <li>We (or our licensors) own all rights in the Service, including software, interfaces, and branding. You must not copy, modify, or create derivative works of the Service.</li>
+    </ul>
+
+    <h2>9) Misidentification &amp; your responsibilities</h2>
+    <p>Face recognition is probabilistic and may surface photos that do not feature you. You agree to review results carefully and refrain from downloading or sharing photos that do not include you. You are responsible for any misuse or infringement arising from your downloads.</p>
+
+    <h2>10) Service availability &amp; changes</h2>
+    <p>We may modify, suspend, or discontinue any part of the Service at any time. We strive for high availability but do not guarantee uninterrupted or error-free operation.</p>
+
+    <h2>11) Disclaimers</h2>
+    <p>Except as required by law, the Service is provided on an “as is” and “as available” basis. We disclaim all warranties, express or implied, including fitness for a particular purpose and non-infringement. We do not warrant that the Service will be accurate, secure, or free from errors at all times.</p>
+
+    <h2>12) Limitation of liability</h2>
+    <p>To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or for any loss of data, profits, or reputation, arising from or related to your use of the Service. Our total aggregate liability for any claims relating to the Service shall not exceed the greater of (a) INR 5,000 or (b) the amounts (if any) you paid to us for the Service in the three (3) months preceding the claim.</p>
+
+    <h2>13) Indemnity</h2>
+    <p>You agree to indemnify and hold harmless CodeTriton and its affiliates, officers, employees, and agents from any claims, liabilities, damages, and expenses (including reasonable legal fees) arising out of your misuse of the Service, your content, or your violation of these Terms.</p>
+
+    <h2>14) Termination</h2>
+    <p>We may suspend or terminate your access to the Service if we reasonably believe you have violated these Terms, laws, or third-party rights. Upon termination, your right to use the Service ceases immediately.</p>
+
+    <h2>15) Governing law &amp; jurisdiction</h2>
+    <p>These Terms are governed by the laws of India. You agree to the exclusive jurisdiction of the courts at Bengaluru, Karnataka, India for any dispute arising out of or relating to the Service or these Terms.</p>
+
+    <h2>16) Changes to these Terms</h2>
+    <p>We may update these Terms from time to time. If we make material changes, we will take reasonable steps to notify users. Your continued use of the Service after the effective date of changes constitutes your acceptance of the revised Terms.</p>
+
+    <h2>17) Contact</h2>
+    <p>If you have questions or requests (including deletion requests), contact us at <strong>support@savemadi.com</strong>.</p>
+
+    <div class="actions">
+      <a class="btn" href="https://www.savemadi.com/" target="_blank" rel="noopener">Back to SAVeMadi</a>
+    </div>
+    <p class="footnote">© CodeTriton. All rights reserved.</p>
+  </main>
+
+  <script>
+  // Starfield (matches your landing page)
+  (function(){
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d', { alpha: true });
+    let w, h, stars;
+
+    function size(){
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      w = canvas.width = Math.floor(window.innerWidth * dpr);
+      h = canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+
+      const density = (window.innerWidth * window.innerHeight) / 8000;
+      const count = Math.min(260, Math.max(120, Math.floor(density)));
+      stars = new Array(count).fill(0).map(() => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: (Math.random()*1.1 + 0.4) * dpr,
+        base: Math.random()*0.55 + 0.25,
+        v: Math.random()*0.35 + 0.15,
+        spd: Math.random()*1.2 + 0.4,
+        ph: Math.random()*Math.PI*2
+      }));
+    }
+
+    function draw(t){
+      t = t/1000;
+      ctx.clearRect(0,0,w,h);
+      for(const s of stars){
+        const a = Math.min(1, Math.max(0, s.base + Math.sin(t*s.spd + s.ph)*s.v));
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255,255,255,${a})`;
+        ctx.shadowColor = `rgba(255,255,255,${a})`;
+        ctx.shadowBlur = 6 * (window.devicePixelRatio || 1);
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', size, { passive:true });
+    size();
+    requestAnimationFrame(draw);
+  })();
+  </script>
+</body>
+</html>
 
