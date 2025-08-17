@@ -73,7 +73,7 @@
     /* Compact T&C line */
     .tc-inline{
       display:block;
-      margin:4px 0 2px;               /* tighter gap */
+      margin:4px 0 2px;
       font-size:clamp(13px, 3.4vw, 14px);
       white-space:normal;
       overflow-wrap:anywhere;
@@ -83,23 +83,30 @@
     }
     .tc-inline a{ color:var(--brand); text-decoration:underline; }
 
-    /* Checkbox row: compact & neat */
+    /* Checkbox row: make label full-width and text wrap */
     label.agree{
       display:flex;
-      gap:8px;                        /* smaller gap */
-      align-items:center;             /* center with checkbox */
+      width:100%;                 /* NEW: let the row use full card width */
+      gap:8px;
+      align-items:center;
       justify-content:flex-start;
       font-size:clamp(13px, 3.4vw, 14px);
       color:#242424;
-      margin:0 0 6px;                 /* minimal bottom gap */
-      white-space:normal;
+      margin:0 0 6px;
       line-height:1.25;
+    }
+    label.agree input{ flex:0 0 auto; }
+    label.agree span{
+      flex:1;                     /* NEW: take remaining space */
+      min-width:0;                /* NEW: allow wrapping inside flex */
+      word-break:break-word;
+      overflow-wrap:anywhere;
     }
     input[type="checkbox"]{ transform:translateY(1px); }
 
     .hint{
       font-weight:600;
-      margin:4px 0 8px;               /* reduced spacing */
+      margin:4px 0 8px;
       color:#242424;
       font-size:clamp(14px, 3.8vw, 16px);
     }
@@ -142,15 +149,13 @@
   <h1>SAVeMadi</h1>
   <p class="tagline"><em>We help  Save your precious moments</em></p>
 
-  <!-- Compact T&C line with short link -->
   <p class="tc-inline">
     Read our Terms &amp; Conditions <a href="https://www.savemadi.com/terms" target="_blank" rel="noopener">here</a>.
   </p>
 
-  <!-- Compact checkbox text -->
   <label class="agree">
     <input type="checkbox" id="agree" />
-    <span>I agree to T&amp;C</span>
+    <span>I have read and agree to the terms and conditions</span>
   </label>
 
   <p class="hint">Enter your 10-digit WhatsApp number</p>
