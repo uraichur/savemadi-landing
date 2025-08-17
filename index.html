@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SAVeMadi – Get your event photos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#031a3a" />
+  <style>
+    :root{
+      --brand:#0b6cff;
+      --text:#1b1b1b;
+      --muted:#3a3a3a;
+      --line:#d9d9d9;
+      --bg1:#0b1f4e;   /* navy gradient start */
+      --bg2:#051234;   /* navy gradient mid  */
+      --bg3:#000a1e;   /* navy gradient end  */
+      --cardA:rgba(255,255,255,0.72); /* more see-through */
+      --cardB:rgba(255,255,255,0.60);
+    }
+
+    /* Full-page starfield canvas sits behind everything */
+    #starfield{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:0;
+      display:block;
+      pointer-events:none;
+    }
+
+    /* Shiny navy background */
+    body{
+      font-family: Cambria, Georgia, "Times New Roman", Times, serif;
+      margin:0;
+      min-height:100dvh;
+      background:
+        radial-gradient(1200px 800px at 20% 25%, #12306e, transparent 60%),
+        radial-gradient(900px 700px at 80% 10%, #0e2a63, transparent 55%),
+        radial-gradient(800px 800px at 60% 90%, #0a2457, transparent 55%),
+        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 60%, var(--bg3) 100%);
+      color:var(--text);
+      display:grid;
+      place-items:center;
+      overflow-x:hidden;
+      padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+    }
+
+    /* Frosted, adaptive card */
+    main{
+      position:relative;
+      z-index:1; /* above stars */
+      width:clamp(300px, 96vw, 640px);
+      padding:clamp(18px, 4vw, 28px) clamp(16px, 3.5vw, 24px);
+      border-radius:18px;
+      background: linear-gradient(165deg, var(--cardA), var(--cardB));
+      border:1px solid rgba(255,255,255,0.30);
+      box-shadow:
+        0 18px 60px rgba(0,0,0,.45),
+        0 1px 0 rgba(255,255,255,.55) inset;
+      backdrop-filter: blur(12px) saturate(125%);
+      -webkit-backdrop-filter: blur(12px) saturate(125%);
+    }
+
+    /* Short screens: avoid clipping */
+    @media (max-height: 640px){
+      body{ place-items:start center; }
+      main{ margin-top:12px; margin-bottom:12px; }
+    }
+
+    /* Heading + tagline */
+    h1{
+      margin:0;
+      font-weight:700;
+      font-size:clamp(22px, 5vw, 28px);
+      text-align:center;
+      letter-spacing:.2px;
+      color:#0b1f4e;
+      text-shadow:0 1px 0 rgba(255,255,255,0.6);
+    }
+    .tagline{
+      margin:6px 0 16px;
+      text-align:center;
+      font-style:italic;
+      color:#2a2a2a;
+      font-size:clamp(14px, 3.6vw, 16px);
+    }
+
+    /* Terms line (single line, just above checkbox) */
+    .tc-inline{
+      display:block;
+      margin:6px 0 6px;
+      font-size:clamp(13px, 3.4vw, 14px);
+      white-space:nowrap;
+      overflow-x:auto;
+      -webkit-overflow-scrolling: touch;
+      color:#242424;
+      text-align:left;
+    }
+    .tc-inline a{
+      color:var(--brand);
+      text-decoration:underline;
+    }
+
+    /* Checkbox row: left aligned, single line */
+    label.agree{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-start;
+      font-size:clamp(13px, 3.4vw, 14px);
+      color:#242424;
+      margin:6px 0 10px;
+      white-space:nowrap;
+      width:auto;
+    }
+    input[type="checkbox"]{ transform:translateY(1px); }
+
+    /* Hint + form controls */
+    .hint{
+      font-weight:600;
+      margin:8px 0 10px;
+      color:#242424;
+      font-size:clamp(14px, 3.8vw, 16px);
+    }
+    input,button{
+      font-size:clamp(16px, 4.2vw, 18px);
+      padding:clamp(11px, 3.2vw, 14px);
+      border-radius:12px;
+      border:1px solid var(--line);
+      width:100%;
+      box-sizing:border-box;
+      font-family: Cambria, Georgia, "Times New Roman", Times, serif;
+      background:#ffffff;
+    }
+    input::placeholder{ color:#6b6b6b; }
+    input:focus, button:focus{
+      outline:2px solid #7aa7ff;
+      outline-offset:2px;
+    }
+    button{
+      margin-top:10px;
+      border:none;
+      background:var(--brand);
+      color:#fff;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(11,108,255,0.35);
+    }
+    button:disabled, input:disabled{
+      opacity:.6; cursor:not-allowed; background:#f3f3f3;
+    }
+    small{ color:#3a3a3a; display:block; margin-top:8px; font-size:clamp(12px, 3.2vw, 13px); }
+    .copyright{ color:#6b6b6b; opacity:0.7; text-align:center; margin-top:4px; font-size:clamp(11px, 3vw, 12px); }
+    #msg{ min-height:20px; color:#1f1f1f; font-size:clamp(13px, 3.4vw, 14px); }
+  </style>
+</head>
+<body>
+
+<!-- Twinkling stars canvas -->
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<main>
+  <h1>SAVeMadi</h1>
+  <p class="tagline"><em>We help  Save your precious moments</em></p>
+
+  <!-- Terms line placed right above the checkbox, single line -->
+  <p class="tc-inline">
+    Read our Terms &amp; Conditions here:
+    <a href="https://www.savemadi.com/terms" target="_blank" rel="noopener">https://www.savemadi.com/terms</a>
+  </p>
+
+  <!-- Agreement checkbox (left-aligned, single line) -->
+  <label class="agree">
+    <input type="checkbox" id="agree" />
+    <span>I have read and agree to the terms and conditions</span>
+  </label>
+
+  <!-- Instruction line between checkbox and phone input -->
+  <p class="hint">Enter your 10-digit WhatsApp number here</p>
+
+  <form id="otpForm" onsubmit="return false">
+    <input
+      id="phone"
+      type="tel"
+      inputmode="numeric"
+      autocomplete="tel"
+      placeholder="Enter your 10-digit WhatsApp number here"
+      maxlength="10"
+      disabled
+    />
+    <button id="sendBtn" onclick="sendOTP()" disabled>Send OTP</button>
+  </form>
+
+  <div id="otpBlock" style="display:none;margin-top:12px">
+    <input id="otp" inputmode="numeric" placeholder="Enter OTP" />
+    <button onclick="verifyOTP()">Verify</button>
+  </div>
+
+  <p id="msg"></p>
+  <small>We’ll redirect you to our selfie page after verification.</small>
+  <small class="copyright">All copyrights @ CodeTriton</small>
+</main>
+
+<script>
+/* ===== Starfield (shiny navy with sprinkled stars) ===== */
+(function(){
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  let w, h, stars;
+
+  function size(){
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    w = canvas.width = Math.floor(window.innerWidth * dpr);
+    h = canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+
+    const density = (window.innerWidth * window.innerHeight) / 8000;
+    const count = Math.min(260, Math.max(120, Math.floor(density)));
+    stars = new Array(count).fill(0).map(() => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: (Math.random()*1.1 + 0.4) * dpr,             // radius
+      base: Math.random()*0.55 + 0.25,                // base alpha
+      v: Math.random()*0.35 + 0.15,                   // twinkle variance
+      spd: Math.random()*1.2 + 0.4,                   // twinkle speed
+      ph: Math.random()*Math.PI*2                     // phase offset
+    }));
+  }
+
+  function draw(t){
+    t = t/1000; // seconds
+    ctx.clearRect(0,0,w,h);
+    for(const s of stars){
+      const a = Math.min(1, Math.max(0, s.base + Math.sin(t*s.spd + s.ph)*s.v));
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(255,255,255,${a})`;
+      ctx.shadowColor = `rgba(255,255,255,${a})`;
+      ctx.shadowBlur = 6 * (window.devicePixelRatio || 1);  // soft "shiny" glow
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', size, { passive:true });
+  size();
+  requestAnimationFrame(draw);
+})();
+
+/* ===== OTP flow with 10-digit gating & auto +91 ===== */
+const API = "https://<YOUR-BACKEND-DOMAIN>/"; // e.g., your Render FastAPI base
+const agree = document.getElementById('agree');
+const phoneEl = document.getElementById('phone');
+const sendBtn = document.getElementById('sendBtn');
+
+function updateSendState(){
+  // allow only digits, max 10
+  let v = phoneEl.value.replace(/\D/g,'');
+  if(v.length > 10) v = v.slice(0,10);
+  if(phoneEl.value !== v) phoneEl.value = v;
+
+  const enabled = agree.checked;
+  phoneEl.disabled = !enabled;
+
+  const valid10 = enabled && v.length === 10;
+  sendBtn.disabled = !valid10;
+}
+
+agree.addEventListener('change', updateSendState);
+phoneEl.addEventListener('input', updateSendState);
+document.addEventListener('DOMContentLoaded', updateSendState);
+
+async function sendOTP(){
+  const digits = phoneEl.value.replace(/\D/g,'');
+  if(digits.length !== 10) return; // safety guard
+  const phone = "91" + digits;     // auto-prefix India country code for backend
+
+  sendBtn.disabled = true;
+  try{
+    const r = await fetch(API + "send-otp", {
+      method:"POST",
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ phone })
+    });
+    const j = await r.json().catch(()=>({}));
+    document.getElementById('msg').textContent = j.detail || "OTP sent if number is valid.";
+    document.getElementById('otpBlock').style.display = "block";
+  }catch(e){
+    document.getElementById('msg').textContent = "Network error. Please try again.";
+  }finally{
+    updateSendState();
+  }
+}
+
+async function verifyOTP(){
+  const digits = phoneEl.value.replace(/\D/g,'');
+  if(digits.length !== 10) return;
+  const phone = "91" + digits;
+
+  const otp = document.getElementById('otp').value.trim();
+  if(!otp){ return }
+
+  try{
+    const r = await fetch(API + "verify-otp", {
+      method:"POST",
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ phone, otp })
+    });
+    const j = await r.json().catch(()=>({}));
+    if(j.code){
+      location.href = "https://www.savemadi.app/selfie?code=" + encodeURIComponent(j.code);
+    }else{
+      document.getElementById('msg').textContent = j.detail || "Invalid OTP, try again.";
+    }
+  }catch(e){
+    document.getElementById('msg').textContent = "Network error. Please try again.";
+  }
+}
+</script>
+</body>
+</html>
