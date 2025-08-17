@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>SAVeMadi – Get your event photos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#031a3a" />
   <style>
     :root{
@@ -11,29 +11,20 @@
       --text:#1b1b1b;
       --muted:#3a3a3a;
       --line:#d9d9d9;
-      --bg1:#0b1f4e;   /* navy gradient start */
-      --bg2:#051234;   /* navy gradient mid  */
-      --bg3:#000a1e;   /* navy gradient end  */
-      --cardA:rgba(255,255,255,0.72); /* more see-through */
+      --bg1:#0b1f4e;
+      --bg2:#051234;
+      --bg3:#000a1e;
+      --cardA:rgba(255,255,255,0.72);
       --cardB:rgba(255,255,255,0.60);
     }
 
-    /* Full-page starfield canvas sits behind everything */
-    #starfield{
-      position:fixed;
-      inset:0;
-      width:100%;
-      height:100%;
-      z-index:0;
-      display:block;
-      pointer-events:none;
-    }
+    /* Background stars canvas */
+    #starfield{ position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none }
 
-    /* Shiny navy background */
     body{
       font-family: Cambria, Georgia, "Times New Roman", Times, serif;
       margin:0;
-      min-height:100dvh;
+      min-height:100svh; /* better on mobile than 100vh/dvh */
       background:
         radial-gradient(1200px 800px at 20% 25%, #12306e, transparent 60%),
         radial-gradient(900px 700px at 80% 10%, #0e2a63, transparent 55%),
@@ -43,21 +34,17 @@
       display:grid;
       place-items:center;
       overflow-x:hidden;
-      padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+      padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
     }
 
-    /* Frosted, adaptive card */
     main{
-      position:relative;
-      z-index:1; /* above stars */
+      position:relative; z-index:1;
       width:clamp(300px, 96vw, 640px);
       padding:clamp(18px, 4vw, 28px) clamp(16px, 3.5vw, 24px);
       border-radius:18px;
       background: linear-gradient(165deg, var(--cardA), var(--cardB));
       border:1px solid rgba(255,255,255,0.30);
-      box-shadow:
-        0 18px 60px rgba(0,0,0,.45),
-        0 1px 0 rgba(255,255,255,.55) inset;
+      box-shadow: 0 18px 60px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.55) inset;
       backdrop-filter: blur(12px) saturate(125%);
       -webkit-backdrop-filter: blur(12px) saturate(125%);
     }
@@ -86,35 +73,32 @@
       font-size:clamp(14px, 3.6vw, 16px);
     }
 
-    /* Terms line (single line, just above checkbox) */
+    /* T&C line: let it wrap on phones (fixes sideways scroll) */
     .tc-inline{
       display:block;
       margin:6px 0 6px;
       font-size:clamp(13px, 3.4vw, 14px);
-      white-space:nowrap;
-      overflow-x:auto;
-      -webkit-overflow-scrolling: touch;
+      white-space:normal;                 /* was nowrap */
+      overflow-wrap:anywhere;             /* break long URL */
+      word-break:break-word;
       color:#242424;
       text-align:left;
     }
-    .tc-inline a{
-      color:var(--brand);
-      text-decoration:underline;
-    }
+    .tc-inline a{ color:var(--brand); text-decoration:underline; }
 
-    /* Checkbox row: left aligned, single line */
+    /* Checkbox: allow wrapping on small screens */
     label.agree{
-      display:inline-flex;
+      display:flex;                       /* was inline-flex */
       gap:10px;
-      align-items:center;
+      align-items:flex-start;
       justify-content:flex-start;
       font-size:clamp(13px, 3.4vw, 14px);
       color:#242424;
       margin:6px 0 10px;
-      white-space:nowrap;
-      width:auto;
+      white-space:normal;                 /* was nowrap */
+      line-height:1.35;
     }
-    input[type="checkbox"]{ transform:translateY(1px); }
+    input[type="checkbox"]{ transform:translateY(2px); }
 
     /* Hint + form controls */
     .hint{
@@ -124,7 +108,7 @@
       font-size:clamp(14px, 3.8vw, 16px);
     }
     input,button{
-      font-size:clamp(16px, 4.2vw, 18px);
+      font-size:clamp(16px, 4.2vw, 18px); /* keeps iOS from zooming */
       padding:clamp(11px, 3.2vw, 14px);
       border-radius:12px;
       border:1px solid var(--line);
@@ -134,24 +118,23 @@
       background:#ffffff;
     }
     input::placeholder{ color:#6b6b6b; }
-    input:focus, button:focus{
-      outline:2px solid #7aa7ff;
-      outline-offset:2px;
-    }
+    input:focus, button:focus{ outline:2px solid #7aa7ff; outline-offset:2px; }
     button{
       margin-top:10px;
       border:none;
       background:var(--brand);
       color:#fff;
       cursor:pointer;
+      touch-action:manipulation;
       box-shadow:0 6px 18px rgba(11,108,255,0.35);
     }
-    button:disabled, input:disabled{
-      opacity:.6; cursor:not-allowed; background:#f3f3f3;
-    }
+    button:disabled, input:disabled{ opacity:.6; cursor:not-allowed; background:#f3f3f3; }
+
     small{ color:#3a3a3a; display:block; margin-top:8px; font-size:clamp(12px, 3.2vw, 13px); }
     .copyright{ color:#6b6b6b; opacity:0.7; text-align:center; margin-top:4px; font-size:clamp(11px, 3vw, 12px); }
     #msg{ min-height:20px; color:#1f1f1f; font-size:clamp(13px, 3.4vw, 14px); }
+
+    @media (prefers-reduced-motion: reduce){ #starfield{ display:none } }
   </style>
 </head>
 <body>
@@ -163,19 +146,19 @@
   <h1>SAVeMadi</h1>
   <p class="tagline"><em>We help  Save your precious moments</em></p>
 
-  <!-- Terms line placed right above the checkbox, single line -->
+  <!-- Terms line -->
   <p class="tc-inline">
     Read our Terms &amp; Conditions here:
     <a href="https://www.savemadi.com/terms" target="_blank" rel="noopener">https://www.savemadi.com/terms</a>
   </p>
 
-  <!-- Agreement checkbox (left-aligned, single line) -->
+  <!-- Agreement checkbox -->
   <label class="agree">
     <input type="checkbox" id="agree" />
     <span>I have read and agree to the terms and conditions</span>
   </label>
 
-  <!-- Instruction line between checkbox and phone input -->
+  <!-- Instruction -->
   <p class="hint">Enter your 10-digit WhatsApp number here</p>
 
   <form id="otpForm" onsubmit="return false">
@@ -202,10 +185,11 @@
 </main>
 
 <script>
-/* ===== Starfield (shiny navy with sprinkled stars) ===== */
+/* ===== Starfield (lighter on phones) ===== */
 (function(){
   const canvas = document.getElementById('starfield');
   const ctx = canvas.getContext('2d', { alpha: true });
+  if(!ctx) return;
   let w, h, stars;
 
   function size(){
@@ -215,28 +199,29 @@
     canvas.style.width = window.innerWidth + 'px';
     canvas.style.height = window.innerHeight + 'px';
 
-    const density = (window.innerWidth * window.innerHeight) / 8000;
-    const count = Math.min(260, Math.max(120, Math.floor(density)));
+    // Slightly fewer stars on small screens for smoother rendering
+    const base = (window.innerWidth * window.innerHeight) / 9000;
+    const count = Math.min(240, Math.max(120, Math.floor(base)));
     stars = new Array(count).fill(0).map(() => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      r: (Math.random()*1.1 + 0.4) * dpr,             // radius
-      base: Math.random()*0.55 + 0.25,                // base alpha
-      v: Math.random()*0.35 + 0.15,                   // twinkle variance
-      spd: Math.random()*1.2 + 0.4,                   // twinkle speed
-      ph: Math.random()*Math.PI*2                     // phase offset
+      r: (Math.random()*1.1 + 0.4) * dpr,
+      base: Math.random()*0.55 + 0.25,
+      v: Math.random()*0.35 + 0.15,
+      spd: Math.random()*1.2 + 0.4,
+      ph: Math.random()*Math.PI*2
     }));
   }
 
   function draw(t){
-    t = t/1000; // seconds
+    t = t/1000;
     ctx.clearRect(0,0,w,h);
     for(const s of stars){
       const a = Math.min(1, Math.max(0, s.base + Math.sin(t*s.spd + s.ph)*s.v));
       ctx.beginPath();
       ctx.fillStyle = `rgba(255,255,255,${a})`;
       ctx.shadowColor = `rgba(255,255,255,${a})`;
-      ctx.shadowBlur = 6 * (window.devicePixelRatio || 1);  // soft "shiny" glow
+      ctx.shadowBlur = 5 * (window.devicePixelRatio || 1);
       ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
       ctx.fill();
     }
@@ -310,6 +295,7 @@ async function verifyOTP(){
     });
     const j = await r.json().catch(()=>({}));
     if(j.code){
+      // Redirect to the .app site carrying the code
       location.href = "https://www.savemadi.app/selfie?code=" + encodeURIComponent(j.code);
     }else{
       document.getElementById('msg').textContent = j.detail || "Invalid OTP, try again.";
